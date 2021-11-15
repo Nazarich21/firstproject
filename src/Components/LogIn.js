@@ -1,48 +1,80 @@
-import React  from "react";
+import React, {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Styles/LogIn.css"
+import axios from "axios";
 
-class LogIn extends React.Component{
-    constructor(props) {
-        super(props)
-        this.state = {
-            email: "",
-            password: ""
-        };
+const LogIn = () => {
+    const[email,setEmail] = useState('');
+    const[password,setPassword] = useState('');
+    const[emailDirty,setEmailDirty] = useState(false);
+    const[passwordDirty,setPasswordDirty] = useState(false);
+    const[emailError,setEmailError] = useState('Email can`t be empty');
+    const[passwordError,setPasswordError] = useState('Password can`t be empty');
 
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value)
+        console.log(e.target.value)
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(!re.test(String(email).toLowerCase())){
+            setEmailError('wrong email format')
+            if(!e.target.value){
+                setPasswordError("Email can`t be empty")
+            }
+        }else{
+            setEmailError("")
+        }
     }
-    handleEmailChange(event) {
-        this.setState({value: event.target.value});
+    const passwordHandler = (e) => {
+      setPassword(e.target.value)
+        console.log(e.target.value)
+        if(e.target.value.length <8){
+            setPasswordError("password length can`t be less then 8 ")
+            if(!e.target.value){
+                setPasswordError("Password can`t be empty")
+            }
+        }else{
+            setPasswordError("")
+        }
     }
-    handlePasswordChange(event) {
-        this.setState({value: event.target.value});
+    const blurHandler = (e) => {
+        switch (e.target.name) {
+            case 'email':
+                setEmailDirty(true);
+                break
+            case 'password':
+                setPasswordDirty(true);
+                break
+        }
+    }
+    const handleSubmit = (e) => {
+        axios.get('https://jsonplaceholder.typicode.com/posts')
+            .then((response) => response.json())
+            .then((json) => console.log(json));
     }
 
-
-
-    render(){
     return (
         <div className={"container mt-5 pt-5"}>
-        <form>
+        <form onSubmit={handleSubmit} >
 
         <div className="form-outline mb-4">
             <label className="form-label" htmlFor="form3Example3">Email address</label>
-            <input type="email" id="form3Example3" className="form-control form-control-lg"
-                   placeholder="Enter a valid email address" value={this.state.email}
-                   onChange={this.handleEmailChange}/>
+            {(emailError && emailDirty) && <div className="text-danger">{emailError}</div>}
+            <input name="email" id="form3Example3" className="form-control form-control-lg"
+                   placeholder="Enter a valid email address" value={email}
+                   onBlur={e=>blurHandler(e)} onChange={e => emailHandler(e)} />
         </div>
 
         <div className="form-outline mb-3">
             <label className="form-label" htmlFor="form3Example4">Password</label>
-            <input type="password" id="form3Example4" className="form-control form-control-lg"
-                   placeholder="Enter password" value={this.state.password}
-                   onChange={this.handlePasswordChange}/>
+            {(passwordError && passwordDirty) && <div className="link-danger">{passwordError}</div>}
+            <input  name="password" type="password" id="form3Example4" className="form-control form-control-lg"
+                   placeholder="Enter password" value={password}
+                   onBlur={e=>blurHandler(e)} onChange={e => passwordHandler(e)}/>
         </div>
 
         <div className="d-flex justify-content-between flex-row-reverse text-center text-lg-start mt-4 pt-2 me-auto">
-            <button type="button" className="btn btn-primary btn-lg"
+            <button type="submit" className="btn btn-primary btn-lg"
                     >Login</button>
             <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
                 <a href="#!" className="link-danger">Register</a></p>
@@ -51,8 +83,8 @@ class LogIn extends React.Component{
         </form>
         </div>
     );
-    }
-}
+
+};
 export default LogIn;
 
 
