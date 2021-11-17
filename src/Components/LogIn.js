@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../Styles/LogIn.css"
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const LogIn = () => {
     const[email,setEmail] = useState('');
@@ -10,8 +11,15 @@ const LogIn = () => {
     const[passwordDirty,setPasswordDirty] = useState(false);
     const[emailError,setEmailError] = useState('Email can`t be empty');
     const[passwordError,setPasswordError] = useState('Password can`t be empty');
+    const[formValid,setFormValid] = useState(false);
 
-
+    useEffect(() =>{
+        if(emailError|| passwordError){
+            setFormValid(false)
+        } else {
+            setFormValid(true)
+        }
+    },[emailError,passwordError])
     const emailHandler = (e) => {
         setEmail(e.target.value)
         console.log(e.target.value)
@@ -45,6 +53,7 @@ const LogIn = () => {
             case 'password':
                 setPasswordDirty(true);
                 break
+            default:
         }
     }
     const handleSubmit = (e) => {
@@ -74,10 +83,11 @@ const LogIn = () => {
         </div>
 
         <div className="d-flex justify-content-between flex-row-reverse text-center text-lg-start mt-4 pt-2 me-auto">
-            <button type="submit" className="btn btn-primary btn-lg"
+            <button type="submit" disabled={!formValid} className="btn btn-primary btn-lg"
                     >Login</button>
             <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
-                <a href="#!" className="link-danger">Register</a></p>
+
+                <Link to="/signup" className="link-danger"> Register</Link></p>
         </div>
 
         </form>
