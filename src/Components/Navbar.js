@@ -6,19 +6,19 @@ import SignUp from "./SignUp";
 import {
     BrowserRouter as Router,
     Route,
-    Link,
-    Routes
+    Routes,Switch,
+    Link
+
 } from "react-router-dom";
 import Timetable from "./Timetable";
 import Home from "./Home";
-import Admin from "./Admin";
-
-
+import AdminPanel from "./AdminPanel";
 
 
 export default function NavBar() {
     return(
-        <Router>
+<></>
+       /*<Router>
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Container fluid>
@@ -28,7 +28,7 @@ export default function NavBar() {
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to={"/home"}>Home</Nav.Link>
                         <Nav.Link as={Link} to={"/timetable"}>Timetable</Nav.Link>
-                        <Nav.Link as={Link} to={"/admin"}>Timetable</Nav.Link>
+                        <Nav.Link as={Link} to={"/admin"}>Admin</Nav.Link>
                     </Nav>
                     <Nav>
                         <Link to="/login"><Button variant={"primary"} className="me-3">LogIn</Button></Link>
@@ -42,12 +42,12 @@ export default function NavBar() {
                 <Route path="/timetable" element={<Timetable/>}/>
                 <Route path="/login" element={<LogIn/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
-                <Route path="/admin" element={<Admin/>}/>
+                <Route path="/admin" element={<AdminPanel/>}/>
 
 
 
             </Routes>
         </div>
-        </Router>
-    )
+        </Router>*/
+    );
 }
