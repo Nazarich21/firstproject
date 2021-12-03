@@ -2,7 +2,6 @@ import React from 'react';
 import {List, Datagrid, TextField,EditButton,DeleteButton } from "react-admin";
 
 
-
 function UserList (props) {
     return(
     <List {...props}>

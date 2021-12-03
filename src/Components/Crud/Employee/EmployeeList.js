@@ -20,7 +20,7 @@ function EmployeeList (props) {
                 <TextField source='patronymic'/>
                 <DateField source='birthday'/>
                 <TextField source='homeAdress'/>
-                <FullNameField source='phones'/>
+                <FileField source="phones" src="Phones" title="phone" />
                 <TextField source='position'/>
                 <ImageInput source="photo" label="Related pictures" accept="image/*">
                     <ImageField source="src" title="title" />
